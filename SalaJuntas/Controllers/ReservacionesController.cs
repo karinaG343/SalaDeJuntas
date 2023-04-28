@@ -100,10 +100,11 @@ namespace SalaJuntas.Controllers
             var reservado = false;
             var Bd_fecha = await _context.Reservaciones.Select(r => new
             {
+                r.liberado,
                 r.fecha_hora_inicial,
                 r.fecha_hora_final,
                 r.Id_sala
-            }).Where(r => r.Id_sala == reservaciones.Id_sala).ToListAsync();
+            }).Where(r => r.Id_sala == reservaciones.Id_sala).Where(r => r.liberado == false).ToListAsync();
             foreach(var f in Bd_fecha)
             {
                 var revision = comprobar(f.fecha_hora_inicial, f.fecha_hora_final, reservaciones.fecha_hora_inicial);
